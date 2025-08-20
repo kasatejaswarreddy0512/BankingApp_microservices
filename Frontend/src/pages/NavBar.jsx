@@ -8,7 +8,7 @@ const NavBar = () => {
       <p>PocketBank</p>
 
       <div className="flex item-center gap-5 text-xl">
-        <p>Kasa Tejaswar Reddy</p>
+        <p className="mt-2">Kasa Tejaswar Reddy</p>
         <Avatar
           src="https://4.bp.blogspot.com/-LLst6-jf4FA/VeRJjUNrFsI/AAAAAAAADIQ/W9FCba0BQZA/s1600/prabhas1.jpg"
           sx={{ backgroundColor: "lightgray" }}
