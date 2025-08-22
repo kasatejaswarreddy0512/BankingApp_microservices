@@ -1,12 +1,11 @@
 import { Button, TextField } from "@mui/material";
 import React from "react";
 
-const ToAccount = () => {
+const Deposits = () => {
   return (
-    <div className="card relative p-6 border rounded-lg shadow-md flex flex-col">
-      <h1 className="text-3xl mb-5 text-green-500">Account Transfer</h1>
+    <div className="card relative p-6 border rounded-lg shadow-md flex flex-row  justify-between">
+      <h1 className="text-3xl mb-5 text-green-500">Fund Deposit</h1>
 
-      {/* Account Number Field */}
       <div>
         <div className="flex flex-row mb-4 align-items-center justify-content-center">
           <label
@@ -34,34 +33,6 @@ const ToAccount = () => {
           />
         </div>
 
-        {/* Ifsc code */}
-        <div className="flex flex-row mb-4 align-items-center justify-content-center">
-          <label
-            htmlFor="ifscCode"
-            className="text-sm font-medium mb-2 text-white  mt-4"
-          >
-            IFSC code :
-          </label>
-          <TextField
-            id="ifscCode"
-            fullWidth
-            label="Enter IFSC code"
-            variant="outlined"
-            sx={{
-              "& .MuiInputBase-input": { color: "white" }, // text color
-              "& .MuiInputLabel-root": { color: "white" }, // label color
-              marginLeft: "70px",
-              width: "300px",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: "white" },
-                "&:hover fieldset": { borderColor: "white" },
-                "&.Mui-focused fieldset": { borderColor: "white" },
-              },
-            }}
-          />
-        </div>
-
-        {/* Amount */}
         <div className="flex flex-row mb-4 align-items-center justify-content-center">
           <label
             htmlFor="amount"
@@ -72,7 +43,7 @@ const ToAccount = () => {
           <TextField
             id="amount"
             fullWidth
-            label="Enter amount"
+            label="Enter Amount"
             variant="outlined"
             sx={{
               "& .MuiInputBase-input": { color: "white" }, // text color
@@ -94,10 +65,10 @@ const ToAccount = () => {
         color="primary"
         sx={{ marginTop: "10px", width: "200px" }}
       >
-        Transfer
+        Deposit
       </Button>
     </div>
   );
 };
 
-export default ToAccount;
+export default Deposits;

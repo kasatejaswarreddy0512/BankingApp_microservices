@@ -4,8 +4,7 @@ import React from "react";
 const ToUpi = () => {
   return (
     <div className="card relative p-6 border rounded-lg shadow-md flex flex-col">
-      <div className="pr-6 mt-4 details"></div>
-      <h1 className="text-3xl mb-5 text-green-500">Transfer to UPI</h1>
+      <h1 className="text-3xl mb-5 text-green-500">UPI Transfer</h1>
       <div>
         <div className="flex flex-row mb-4 align-items-center justify-content-center">
           <label

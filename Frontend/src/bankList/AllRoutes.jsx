@@ -4,6 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Account from "./Account";
 import ToAccount from "./ToAccount";
 import ToUpi from "./ToUpi";
+import Deposits from "./Deposits";
 
 const AllRoutes = () => {
   return (
@@ -12,7 +13,7 @@ const AllRoutes = () => {
       <Route path="/account" element={<Account />} />
       <Route path="/toaccount" element={<ToAccount />} />
       <Route path="/toupi" element={<ToUpi />} />
-      {/* <Route path="/deposits" element={<Deposits />} /> */}
+      <Route path="/deposits" element={<Deposits />} />
       {/* <Route path="/withdrawals" element={<Withdrawals />} /> */}
       {/* <Route path="/create-account" element={<CreateAccount />} /> */}
       {/* <Route path="/transactions" element={<Transactions />} /> */}
