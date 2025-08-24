@@ -1,96 +1,100 @@
-import { Button, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { TextField, Button } from "@mui/material";
 
 const ToUpi = () => {
+  const [formData, setFormData] = useState({
+    fromUpi: "",
+    toUpi: "",
+    amount: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("UPI Transfer Data Submitted:", formData);
+    // Here you can call your backend API
+  };
+
   return (
-    <div className="card relative p-6 border rounded-lg shadow-md flex flex-col">
-      <h1 className="text-3xl mb-5 text-green-500">UPI Transfer</h1>
-      <div>
-        <div className="flex flex-row mb-4 align-items-center justify-content-center">
-          <label
-            htmlFor="upi"
-            className="text-sm font-medium mb-2 text-white  mt-4"
-          >
-            From UPI ID :
-          </label>
-          <TextField
-            id="upi"
-            fullWidth
-            label="Enter UPI ID"
-            variant="outlined"
-            sx={{
-              "& .MuiInputBase-input": { color: "white" }, // text color
-              "& .MuiInputLabel-root": { color: "white" }, // label color
-              marginLeft: "20px",
-              width: "300px",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: "white" },
-                "&:hover fieldset": { borderColor: "white" },
-                "&.Mui-focused fieldset": { borderColor: "white" },
-              },
-            }}
-          />
-        </div>
+    <div className="card relative p-6 border rounded-lg shadow-md w-[800px] mx-auto mt-10">
+      <h1 className="text-2xl mb-6 text-center text-green-600 font-semibold">
+        UPI Transfer
+      </h1>
 
-        <div className="flex flex-row mb-4 align-items-center justify-content-center">
-          <label
-            htmlFor="upi"
-            className="text-sm font-medium mb-2 text-white  mt-4"
-          >
-            To UPI ID :
-          </label>
-          <TextField
-            id="upi"
-            fullWidth
-            label="Enter UPI ID"
-            variant="outlined"
-            sx={{
-              "& .MuiInputBase-input": { color: "white" }, // text color
-              "& .MuiInputLabel-root": { color: "white" }, // label color
-              marginLeft: "38px",
-              width: "300px",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: "white" },
-                "&:hover fieldset": { borderColor: "white" },
-                "&.Mui-focused fieldset": { borderColor: "white" },
-              },
-            }}
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="space-y-4 mb-10">
+        <TextField
+          fullWidth
+          label="From UPI ID"
+          name="fromUpi"
+          value={formData.fromUpi}
+          onChange={handleChange}
+          InputLabelProps={{ style: { color: "white" } }}
+          InputProps={{ style: { color: "white" } }}
+          sx={{
+            marginBottom: "30px",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": { borderColor: "white" },
+              "&:hover fieldset": { borderColor: "white" },
+              "&.Mui-focused fieldset": { borderColor: "white" },
+            },
+          }}
+        />
 
-        <div className="flex flex-row mb-4 align-items-center justify-content-center">
-          <label
-            htmlFor="upi"
-            className="text-sm font-medium mb-2 text-white  mt-4"
-          >
-            Amount :
-          </label>
-          <TextField
-            id="amount"
-            fullWidth
-            label="Enter Amount"
-            variant="outlined"
-            sx={{
-              "& .MuiInputBase-input": { color: "white" }, // text color
-              "& .MuiInputLabel-root": { color: "white" }, // label color
-              marginLeft: "48px",
-              width: "300px",
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { borderColor: "white" },
-                "&:hover fieldset": { borderColor: "white" },
-                "&.Mui-focused fieldset": { borderColor: "white" },
-              },
-            }}
-          />
-        </div>
-      </div>
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{ marginTop: "10px", width: "200px" }}
-      >
-        Transfer
-      </Button>
+        <TextField
+          fullWidth
+          label="To UPI ID"
+          name="toUpi"
+          value={formData.toUpi}
+          onChange={handleChange}
+          InputLabelProps={{ style: { color: "white" } }}
+          InputProps={{ style: { color: "white" } }}
+          sx={{
+            marginBottom: "30px",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": { borderColor: "white" },
+              "&:hover fieldset": { borderColor: "white" },
+              "&.Mui-focused fieldset": { borderColor: "white" },
+            },
+          }}
+        />
+
+        <TextField
+          fullWidth
+          type="number"
+          label="Amount"
+          name="amount"
+          value={formData.amount}
+          onChange={handleChange}
+          InputLabelProps={{ style: { color: "white" } }}
+          InputProps={{ style: { color: "white" } }}
+          sx={{
+            marginBottom: "30px",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": { borderColor: "white" },
+              "&:hover fieldset": { borderColor: "white" },
+              "&.Mui-focused fieldset": { borderColor: "white" },
+            },
+          }}
+        />
+
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{
+            marginTop: "10px",
+            borderRadius: "8px",
+            width: "200px",
+            marginLeft: "250px",
+          }}
+        >
+          Transfer
+        </Button>
+      </form>
     </div>
   );
 };

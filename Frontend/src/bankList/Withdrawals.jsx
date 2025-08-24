@@ -1,7 +1,7 @@
 import { Button, TextField } from "@mui/material";
 import React, { useState } from "react";
 
-const Deposits = () => {
+const Withdrawals = () => {
   const [formData, setFormData] = useState({
     accountNumber: "",
     amount: "",
@@ -16,15 +16,15 @@ const Deposits = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Deposit Data Submitted:", formData);
+    console.log("Withdrawal Data Submitted:", formData);
     // 👉 Call backend API here
-    // axios.post("/deposit", formData);
+    // axios.post(`/withdraw/${formData.accountNumber}?amount=${formData.amount}`);
   };
 
   return (
     <div className="card relative p-6 border rounded-lg shadow-md flex flex-col w-[800px] mx-auto mt-10">
-      <h1 className="text-3xl mb-6 text-green-500 text-center font-semibold">
-        Fund Deposit
+      <h1 className="text-3xl mb-6 text-red-500 text-center font-semibold">
+        Fund Withdrawal
       </h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">
@@ -76,11 +76,11 @@ const Deposits = () => {
           fullWidth
           sx={{ marginTop: "10px", borderRadius: "8px" }}
         >
-          Deposit
+          Withdraw
         </Button>
       </form>
     </div>
   );
 };
 
-export default Deposits;
+export default Withdrawals;
