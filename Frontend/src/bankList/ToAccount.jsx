@@ -22,10 +22,12 @@ const ToAccount = () => {
   };
 
   return (
-    <div className="card relative p-6 border rounded-lg shadow-md flex flex-col w-[800px] mx-auto mt-10">
-      <h1 className="text-2xl mb-6 text-green-500 text-center font-semibold">
-        Account Transfer
-      </h1>
+    <div className="card relative p-6 border rounded-lg shadow-md flex flex-col w-[880px] mx-auto mt-10">
+      <div className="flex flex-col items-center">
+        <h1 className="text-3xl mb-6 text-green-500 text-center font-semibold">
+          Account Transfer
+        </h1>
+      </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Account Number */}
@@ -38,6 +40,7 @@ const ToAccount = () => {
           InputLabelProps={{ style: { color: "white" } }}
           InputProps={{ style: { color: "white" } }}
           sx={{
+            marginTop: "20px",
             marginBottom: "30px",
             "& .MuiOutlinedInput-root": {
               "& fieldset": { borderColor: "white" },
@@ -95,7 +98,7 @@ const ToAccount = () => {
             marginTop: "10px",
             borderRadius: "8px",
             width: "200px",
-            marginLeft: "250px",
+            marginLeft: "320px",
           }}
         >
           Transfer

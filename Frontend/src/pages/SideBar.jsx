@@ -29,12 +29,12 @@ const SideBar = () => {
       />
 
       {/* scrollable area */}
-      <div className="flex-1 min-h-0 w-full px-2 space-y-2 overflow-y-auto">
+      <div className=" flex-2 min-h-1 w-full px-2 space-y-2 overflow-y-auto">
         {menu.map((item) => (
           <div
             key={item.value}
             onClick={() => navigate(`/${item.value.toLowerCase()}`)}
-            className="text-sm text-center mt-2 border py-2 rounded-full cursor-pointer "
+            className="text-sm text-center border py-2 rounded-full cursor-pointer hover:bg-gray-700 transition "
           >
             {item.name}
           </div>

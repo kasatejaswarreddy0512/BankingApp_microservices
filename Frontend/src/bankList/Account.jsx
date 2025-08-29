@@ -5,8 +5,8 @@ const Account = () => {
   return (
     <div className="card relative p-6 border rounded-lg shadow-md flex flex-row  justify-between">
       {/* Left Side - Account Details */}
-      <div className="w-1/2 pr-6 mt-4 details">
-        <h2 className="text-xl font-semibold text-green-800 mb-4">
+      <div className="w-1/2 pr-6 space-y-3 mt-9 details">
+        <h2 className="text-3xl font-semibold  text-green-500 mb-4">
           Account Details
         </h2>
         <div className="space-y-3">
@@ -31,7 +31,7 @@ const Account = () => {
         </div>
 
         {/* User Details */}
-        <h2 className="text-xl font-semibold text-blue-800 mt-6 mb-4">
+        <h2 className="text-3xl font-semibold text-blue-800  mt-9 mb-4">
           User Details
         </h2>
         <div className="space-y-3">

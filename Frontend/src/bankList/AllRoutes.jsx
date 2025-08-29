@@ -6,6 +6,8 @@ import ToAccount from "./ToAccount";
 import ToUpi from "./ToUpi";
 import Deposits from "./Deposits";
 import Withdrawals from "./Withdrawals";
+import CreateAccount from "./CreateAccount";
+import Transactions from "./Transactions";
 
 const AllRoutes = () => {
   return (
@@ -16,8 +18,8 @@ const AllRoutes = () => {
       <Route path="/toupi" element={<ToUpi />} />
       <Route path="/deposits" element={<Deposits />} />
       <Route path="/withdrawals" element={<Withdrawals />} />
-      {/* <Route path="/create-account" element={<CreateAccount />} /> */}
-      {/* <Route path="/transactions" element={<Transactions />} /> */}
+      <Route path="/createaccount" element={<CreateAccount />} />
+      <Route path="/transactions" element={<Transactions />} />
       {/* <Route path="/notifications" element={<Notifications />} /> */}
     </Routes>
   );

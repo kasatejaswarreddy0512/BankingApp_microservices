@@ -19,8 +19,8 @@ const ToUpi = () => {
   };
 
   return (
-    <div className="card relative p-6 border rounded-lg shadow-md w-[800px] mx-auto mt-10">
-      <h1 className="text-2xl mb-6 text-center text-green-600 font-semibold">
+    <div className="card relative p-6 border rounded-lg shadow-md w-[880px] mx-auto ">
+      <h1 className="text-2xl mb-6 text-center text-green-500 font-semibold">
         UPI Transfer
       </h1>
 
@@ -34,6 +34,7 @@ const ToUpi = () => {
           InputLabelProps={{ style: { color: "white" } }}
           InputProps={{ style: { color: "white" } }}
           sx={{
+            marginTop: "20px",
             marginBottom: "30px",
             "& .MuiOutlinedInput-root": {
               "& fieldset": { borderColor: "white" },
@@ -89,7 +90,7 @@ const ToUpi = () => {
             marginTop: "10px",
             borderRadius: "8px",
             width: "200px",
-            marginLeft: "250px",
+            marginLeft: "320px",
           }}
         >
           Transfer

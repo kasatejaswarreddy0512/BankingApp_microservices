@@ -22,7 +22,7 @@ const Withdrawals = () => {
   };
 
   return (
-    <div className="card relative p-6 border rounded-lg shadow-md flex flex-col w-[800px] mx-auto mt-10">
+    <div className="card relative p-6 border rounded-lg shadow-md flex flex-col w-[880px] mx-auto mt-10">
       <h1 className="text-3xl mb-6 text-red-500 text-center font-semibold">
         Fund Withdrawal
       </h1>
@@ -74,7 +74,12 @@ const Withdrawals = () => {
           variant="contained"
           color="primary"
           fullWidth
-          sx={{ marginTop: "10px", borderRadius: "8px" }}
+          sx={{
+            marginTop: "10px",
+            borderRadius: "8px",
+            width: "200px",
+            marginLeft: "320px",
+          }}
         >
           Withdraw
         </Button>

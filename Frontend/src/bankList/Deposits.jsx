@@ -22,7 +22,7 @@ const Deposits = () => {
   };
 
   return (
-    <div className="card relative p-6 border rounded-lg shadow-md flex flex-col w-[800px] mx-auto mt-10">
+    <div className="card  relative p-6 border rounded-lg shadow-md flex flex-col w-[880px] mx-auto mt-10">
       <h1 className="text-3xl mb-6 text-green-500 text-center font-semibold">
         Fund Deposit
       </h1>
@@ -37,6 +37,7 @@ const Deposits = () => {
           onChange={handleChange}
           variant="outlined"
           sx={{
+            marginTop: "20px",
             marginBottom: "30px",
             "& .MuiInputBase-input": { color: "white" },
             "& .MuiInputLabel-root": { color: "white" },
@@ -74,7 +75,12 @@ const Deposits = () => {
           variant="contained"
           color="primary"
           fullWidth
-          sx={{ marginTop: "10px", borderRadius: "8px" }}
+          sx={{
+            marginTop: "10px",
+            borderRadius: "8px",
+            width: "200px",
+            marginLeft: "320px",
+          }}
         >
           Deposit
         </Button>

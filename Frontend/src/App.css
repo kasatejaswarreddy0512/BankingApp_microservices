@@ -1,7 +1,12 @@
 .details{
   margin-left: -340px;
+  margin-bottom: 20px;
 }
 .img{
-  margin-top: -380px;
-  margin-bottom: 50px;
+  margin-top: -230px;
+  margin-bottom: 20px;
+  margin-left: 400px;
+}
+.h2{
+  margin-bottom: 20px;
 }
