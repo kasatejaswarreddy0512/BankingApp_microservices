@@ -34,7 +34,7 @@ const SideBar = () => {
           <div
             key={item.value}
             onClick={() => navigate(`/${item.value.toLowerCase()}`)}
-            className="text-sm text-center border py-2 rounded-full cursor-pointer hover:bg-gray-700 transition "
+            className="menu text-sm text-center border py-2 rounded-full cursor-pointer hover:bg-gray-700 transition "
           >
             {item.name}
           </div>

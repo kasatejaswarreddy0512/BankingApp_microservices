@@ -19,8 +19,10 @@ public class Account {
     private Long id;
     private String accountNumber;
     private String IfscCode;
+    private String upi;
     private String accountType;
     private String branchName;
+    private String bankName;
     private Double balance;
 
     private Long userId; // Foreign key to User entity

@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
@@ -19,6 +21,13 @@ public class UserController {
         String jwt=authHeader.substring(7).trim();
         return ResponseEntity.ok(authService.getUserProfile(jwt));
     }
+
+    @GetMapping("")
+    public ResponseEntity<List<User>> getAllUsers(@RequestHeader("Authorization") String authHeader) {
+        String jwt=authHeader.substring(7).trim();
+        return ResponseEntity.ok(authService.getAllUsers());
+    }
+
 
     @PutMapping("/profile/{id}")
     public ResponseEntity<User> updateUserProfile(@PathVariable Long id, @RequestBody SignUpRequest signUpRequest) {

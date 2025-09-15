@@ -45,11 +45,20 @@ public class AccountServiceImpl  implements AccountService {
         if(account.getIfscCode() != null) {
             existingAccount.setIfscCode(account.getIfscCode());
         }
+        if (account.getUpi() != null) {
+            existingAccount.setUpi(account.getUpi());
+        }
+        if(account.getBranchName()!=null){
+            existingAccount.setBranchName(account.getBranchName());
+        }
         if(account.getAccountType() != null) {
             existingAccount.setAccountType(account.getAccountType());
         }
         if(account.getBalance() != null) {
             existingAccount.setBalance(account.getBalance());
+        }
+        if(account.getBankName()!=null){
+            existingAccount.setBankName(account.getBankName());
         }
         return accountRepository.save(existingAccount);
     }

@@ -12,6 +12,10 @@
     
     
 }
+.menu{
+  margin-bottom: 10px;
+  height: 22px;
+}
 
 .logout {
   color: white !important;
