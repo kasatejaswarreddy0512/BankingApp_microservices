@@ -95,6 +95,7 @@ const Signup = ({ togglePannel }) => {
             value={formData.aadhaarNumber}
             onChange={handleChange}
             placeholder="Enter Aadhaar Number..."
+            required
             sx={textFieldStyles}
           />
 
@@ -106,6 +107,7 @@ const Signup = ({ togglePannel }) => {
             value={formData.panNumber}
             onChange={handleChange}
             placeholder="Enter PAN Number..."
+            required
             sx={textFieldStyles}
           />
 
@@ -117,6 +119,7 @@ const Signup = ({ togglePannel }) => {
             value={formData.phoneNumber}
             onChange={handleChange}
             placeholder="Enter Phone Number..."
+            required
             sx={textFieldStyles}
           />
 
@@ -127,6 +130,7 @@ const Signup = ({ togglePannel }) => {
             type="date"
             value={formData.dateOfBirth}
             onChange={handleChange}
+            required
             InputLabelProps={{ shrink: true }}
             sx={textFieldStyles}
           />
@@ -139,6 +143,7 @@ const Signup = ({ togglePannel }) => {
             value={formData.address}
             onChange={handleChange}
             placeholder="Enter your Address..."
+            required
             sx={{ ...textFieldStyles, gridColumn: "span 2" }}
           />
 
@@ -150,6 +155,7 @@ const Signup = ({ togglePannel }) => {
             value={formData.profilePictureUrl}
             onChange={handleChange}
             placeholder="Enter profile image URL..."
+            required
             sx={{ ...textFieldStyles, gridColumn: "span 3" }}
           />
 

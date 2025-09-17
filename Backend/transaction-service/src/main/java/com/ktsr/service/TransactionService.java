@@ -8,7 +8,7 @@ public interface TransactionService {
 
     Transaction withdraw(Long accountId, double amount, String jwt);
 
-
-
     Transaction transfer(Long fromAccountId, Long toAccountId, double amount, String jwt);
+
+    Transaction getTransactionByAccountId(String accountNumber, String jwt);
 }

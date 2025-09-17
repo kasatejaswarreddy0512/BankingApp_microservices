@@ -105,7 +105,7 @@ const Signin = ({ togglePannel }) => {
             onClick={togglePannel}
             sx={{ textTransform: "none", color: "#1976d2" }}
           >
-            Sign Up
+            Register
           </Button>
         </div>
       </div>

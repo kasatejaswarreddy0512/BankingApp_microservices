@@ -18,4 +18,7 @@ public interface AccountServiceClient {
                                                         @RequestHeader("Authorization") String authHeader);
 
 
+    @GetMapping("/api/account/accountNumber/{accountNumber}")
+    public ResponseEntity<AccountDto> getAccountByAccountNumber(@PathVariable String accountNumber, @RequestHeader("Authorization") String authHeader) ;
+
 }

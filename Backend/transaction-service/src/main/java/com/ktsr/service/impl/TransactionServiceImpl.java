@@ -99,4 +99,10 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setTransactionDate(LocalDateTime.now());
         return transactionRepository.save(transaction);
     }
+
+    @Override
+    public Transaction getTransactionByAccountId(String acc, String jwt) {
+        accountServiceClient.getAccountById(accountId, jwt).getBody();
+        return transactionRepository.findByAccountId(accountId)
+    }
 }
