@@ -2,9 +2,13 @@ import { Avatar, Button } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./SideBar.css";
+import { logout } from "../Redux-Toolkit/AuthSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const SideBar = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { account, auth } = useSelector((store) => store);
 
   const menu = [
     { name: "ACCOUNT", value: "Account", role: ["ADMIN", "USER"] },
@@ -17,13 +21,16 @@ const SideBar = () => {
     { name: "NOTIFICATIONS", value: "Notifications", role: ["USER"] },
   ];
 
-  const handleLogout = () => console.log("Logout clicked");
+  const handleLogout = () => {
+    dispatch(logout());
+    console.log("Logged out successfully");
+  };
 
   return (
     // fill parent height
     <div className="card h-[85vh] w-[20vw] ml-5 flex flex-col">
       <Avatar
-        src="https://4.bp.blogspot.com/-LLst6-jf4FA/VeRJjUNrFsI/AAAAAAAADIQ/W9FCba0BQZA/s1600/prabhas1.jpg"
+        src={auth.user.profilePictureUrl}
         sx={{ width: "8rem", height: "8rem", margin: "10px 0" }}
         className="border-2 border-gray-800"
       />

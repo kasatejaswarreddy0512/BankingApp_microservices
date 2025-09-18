@@ -7,8 +7,14 @@ import {
   Select,
 } from "@mui/material";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { register } from "../Redux-Toolkit/AuthSlice";
+import { useNavigate } from "react-router-dom";
 
 const Signup = ({ togglePannel }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     aadhaarNumber: "",
     address: "",
@@ -37,6 +43,8 @@ const Signup = ({ togglePannel }) => {
       alert("Please select a role");
       return;
     }
+    dispatch(register(formData));
+    navigate("/Signin");
     console.log("Signup form:", formData);
   };
 
@@ -108,7 +116,12 @@ const Signup = ({ togglePannel }) => {
             onChange={handleChange}
             placeholder="Enter PAN Number..."
             required
-            sx={textFieldStyles}
+            sx={{
+              ...textFieldStyles,
+              "& input": {
+                textTransform: "uppercase", // 👈 force uppercase visually
+              },
+            }}
           />
 
           {/* Phone Number */}
@@ -132,7 +145,12 @@ const Signup = ({ togglePannel }) => {
             onChange={handleChange}
             required
             InputLabelProps={{ shrink: true }}
-            sx={textFieldStyles}
+            sx={{
+              ...textFieldStyles,
+              "& input::-webkit-calendar-picker-indicator": {
+                filter: "invert(1)", // 👈 makes the default black icon white
+              },
+            }}
           />
 
           {/* Address (make it span 2 cols) */}

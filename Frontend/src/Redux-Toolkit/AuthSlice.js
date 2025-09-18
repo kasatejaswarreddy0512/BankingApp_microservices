@@ -3,23 +3,27 @@ import { api, BASE_URL, setAuthHeader } from "../API/Api";
 import axios from "axios";
 
 // ---------------------- LOGIN ----------------------
-export const login = createAsyncThunk("api/login", async (userData, { rejectWithValue }) => {
-  try {
-    const { data } = await axios.post(`${BASE_URL}/auth/login`, userData);
+export const login = createAsyncThunk(
+  "api/login",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.post(`${BASE_URL}/auth/login`, userData);
 
-    if (data?.token) {
-      localStorage.setItem("token", data.token);
-      setAuthHeader(data.token);
-      console.log("Login successful:", data);
-      return data;
-    } else {
-      return rejectWithValue("Login failed");
+      if (data?.token) {
+        localStorage.setItem("token", data.token);
+        setAuthHeader(data.token);
+        console.log("Login successful:", data);
+        return data;
+      } else {
+        return rejectWithValue("Invalid credentials. Please try again.");
+      }
+    } catch (err) {
+      console.log("Login error:", err);
+      return rejectWithValue("Invalid credentials. Please try again.");
     }
-  } catch (err) {
-    console.log("Login error:", err);
-    return rejectWithValue(err.response?.data?.error || err.message || "Login failed");
   }
-});
+);
+
 
 // ---------------------- REGISTER ----------------------
 export const register = createAsyncThunk("api/register", async (userData, { rejectWithValue }) => {

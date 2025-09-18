@@ -61,6 +61,7 @@ export const getAccountsByUserId = createAsyncThunk(
     const { data } = await axios.get(`${BASE_URL}/api/account/user/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    console.log("Fetched accounts for user:", data);
     return data;
   }
 );

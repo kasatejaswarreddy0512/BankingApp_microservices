@@ -3,8 +3,8 @@ import React, { useState } from "react";
 
 const ToAccount = () => {
   const [formData, setFormData] = useState({
-    accountNumber: "",
-    ifscCode: "",
+    fromAccountNumber: "",
+    toAccountNumber: "",
     amount: "",
   });
 
@@ -30,17 +30,16 @@ const ToAccount = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Account Number */}
+        {/* From Account Number */}
         <TextField
-          id="accountNumber"
+          id="fromAccountNumber"
           fullWidth
-          label="Enter Account Number"
-          value={formData.accountNumber}
+          label="Enter From Account Number"
+          value={formData.fromAccountNumber}
           onChange={handleChange}
           InputLabelProps={{ style: { color: "white" } }}
           InputProps={{ style: { color: "white" } }}
           sx={{
-            marginTop: "20px",
             marginBottom: "30px",
             "& .MuiOutlinedInput-root": {
               "& fieldset": { borderColor: "white" },
@@ -50,16 +49,17 @@ const ToAccount = () => {
           }}
         />
 
-        {/* IFSC Code */}
+        {/* Account Number */}
         <TextField
-          id="ifscCode"
+          id="toAccountNumber"
           fullWidth
-          label="Enter IFSC Code"
-          value={formData.ifscCode}
+          label="Enter To Account Number"
+          value={formData.toAccountNumber}
           onChange={handleChange}
           InputLabelProps={{ style: { color: "white" } }}
           InputProps={{ style: { color: "white" } }}
           sx={{
+            marginTop: "20px",
             marginBottom: "30px",
             "& .MuiOutlinedInput-root": {
               "& fieldset": { borderColor: "white" },

@@ -1,34 +1,61 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../App.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getAccountsByUserId } from "../Redux-Toolkit/AccountSlice";
 
 const Account = () => {
+  const dispatch = useDispatch();
+  const { accounts, loading, error } = useSelector((store) => store.account);
+  const { user } = useSelector((store) => store.auth);
+
+  useEffect(() => {
+    if (user?.id) {
+      const token = localStorage.getItem("token");
+      dispatch(getAccountsByUserId({ userId: user.id, token }));
+    }
+  }, [dispatch, user]);
+
+  if (loading) return <p>Loading account details...</p>;
+  if (error) return <p className="text-red-500">Error: {error}</p>;
+
+  // If multiple accounts exist, take the first one (or map through them)
+  const account = accounts?.[0];
+
   return (
-    <div className="card relative p-6 border rounded-lg shadow-md flex flex-row  justify-between">
+    <div className="card relative p-6 border rounded-lg shadow-md flex flex-row justify-between">
       {/* Left Side - Account Details */}
-      <div className=" w-1/2 pr-6 space-y-3 mt-9 details">
-        <h2 className="text-3xl font-semibold  text-green-500 account-head">
+      <div className="w-1/2 pr-6 space-y-3 mt-9 details">
+        <h2 className="text-3xl font-semibold text-green-500 account-head">
           Account Details
         </h2>
-        <div className=" space-y-3">
-          <p className="account text-sm">
-            <span className="font-medium">Account Name:</span> John Doe
-          </p>
-          <p className="account text-sm">
-            <span className="font-medium">Account Number:</span> 123456789
-          </p>
-          <p className="account text-sm">
-            <span className="font-medium">Account Type:</span> Savings
-          </p>
-          <p className="account text-sm">
-            <span className="font-medium">IFSC Code:</span> ABCD0123456
-          </p>
-          <p className="account text-sm">
-            <span className="font-medium">Branch:</span> Hyderabad Main
-          </p>
-          <p className="account text-sm">
-            <span className="font-medium">Balance:</span> ₹10,000
-          </p>
-        </div>
+        {account ? (
+          <div className="space-y-3">
+            <p className="account text-sm">
+              <span className="font-medium">Account Name:</span>{" "}
+              {user?.fullName || "N/A"}
+            </p>
+            <p className="account text-sm">
+              <span className="font-medium">Account Number:</span>{" "}
+              {account.accountNumber}
+            </p>
+            <p className="account text-sm">
+              <span className="font-medium">Account Type:</span>{" "}
+              {account.accountType}
+            </p>
+            <p className="account text-sm">
+              <span className="font-medium">IFSC Code:</span> {account.ifscCode}
+            </p>
+            <p className="account text-sm">
+              <span className="font-medium">Branch:</span>{" "}
+              {account.branchName || "N/A"}
+            </p>
+            <p className="account text-sm">
+              <span className="font-medium ">Balance:</span> ₹{account.balance}
+            </p>
+          </div>
+        ) : (
+          <p>No account details available.</p>
+        )}
 
         {/* User Details */}
         <h2 className="text-3xl font-semibold text-blue-800 account-head mt-9 mb-4">
@@ -36,24 +63,30 @@ const Account = () => {
         </h2>
         <div className="space-y-3">
           <p className="account text-sm">
-            <span className="font-medium">Name:</span> John Doe
+            <span className="font-medium">Name:</span> {user?.fullName}
           </p>
           <p className="account text-sm">
-            <span className="font-medium">Email:</span> john.doe@email.com
+            <span className="font-medium">Email:</span> {user?.email}
           </p>
           <p className="account text-sm">
-            <span className="font-medium">Phone:</span> +91 9876543210
+            <span className="font-medium">Phone:</span> {user?.phoneNumber}
           </p>
         </div>
       </div>
 
       {/* Right Side - Image */}
-      <div className="w-1/2 flex justify-center ml-100 img">
-        <img
-          src="https://images.unsplash.com/photo-1579621970588-a35d0e7ab9b6?q=80&w=1170&auto=format&fit=crop"
-          alt="Bank Account"
-          className="img w-100 h-100 object-cover rounded-lg"
-        />
+      <div className="w-1/2 flex justify-center img">
+        {user?.profilePictureUrl ? (
+          <img
+            src={user.profilePictureUrl}
+            alt="Profile"
+            className="img w-100 h-100 object-cover rounded-lg"
+          />
+        ) : (
+          <div className="w-32 h-32 bg-gray-200 flex items-center justify-center rounded-lg">
+            No Image
+          </div>
+        )}
       </div>
     </div>
   );

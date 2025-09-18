@@ -12,7 +12,7 @@ import Transactions from "./Transactions";
 const AllRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/account" replace />} />
+      {/* <Route path="/" element={<Navigate to="/account" replace />} /> */}
       <Route path="/account" element={<Account />} />
       <Route path="/toaccount" element={<ToAccount />} />
       <Route path="/toupi" element={<ToUpi />} />
