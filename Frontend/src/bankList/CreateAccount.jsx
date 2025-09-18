@@ -6,46 +6,52 @@ import {
   InputLabel,
   FormControl,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getuserProfileList } from "../Redux-Toolkit/AuthSlice";
+import { createAccount } from "../Redux-Toolkit/AccountSlice";
 
 const CreateAccount = () => {
+  const dispatch = useDispatch();
+  const { users, loading, error } = useSelector((store) => store.auth);
+
   const [formData, setFormData] = useState({
     accountNumber: "",
     accountType: "",
     ifscCode: "",
     branchName: "",
     balance: "",
+    upi: "",
+    bankName: "",
     userId: "",
   });
 
-  const [accountTypeValue, setAccountTypeValue] = useState("");
+  // Fetch users on mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(getuserProfileList(token));
+    }
+  }, [dispatch]);
 
-  // Example users array
-  const users = [
-    { id: "1", fullName: "Tejaswar Reddy" },
-    { id: "2", fullName: "Ananya Sharma" },
-    { id: "3", fullName: "Ravi Kumar" },
-  ];
-
+  // ✅ Updated handleChange to use "name" instead of "id"
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
-
-  const handleAccountTypeChange = (e) => {
-    setAccountTypeValue(e.target.value);
-    setFormData({
-      ...formData,
-      accountType: e.target.value,
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(
+      createAccount({
+        userId: formData.userId,
+        accountData: formData,
+        token: localStorage.getItem("token"),
+      })
+    );
     console.log("Account Data Submitted:", formData);
-    // Call backend API here, e.g., axios.post("/createAccount", formData)
   };
 
   const textFieldStyles = {
@@ -67,7 +73,7 @@ const CreateAccount = () => {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <TextField
-          id="accountNumber"
+          name="accountNumber"
           fullWidth
           label="Enter Account Number"
           value={formData.accountNumber}
@@ -82,19 +88,19 @@ const CreateAccount = () => {
           </InputLabel>
           <Select
             labelId="accountType-label"
-            id="accountType"
-            value={accountTypeValue}
-            onChange={handleAccountTypeChange}
+            name="accountType" // ✅ changed
+            value={formData.accountType}
+            onChange={handleChange}
             sx={{ color: "white" }}
           >
             <MenuItem value="Savings">Savings</MenuItem>
             <MenuItem value="Current">Current</MenuItem>
-            <MenuItem value="Fixed Deposit">Fixed Deposit</MenuItem>
+            <MenuItem value="Business">Business</MenuItem>
           </Select>
         </FormControl>
 
         <TextField
-          id="ifscCode"
+          name="ifscCode"
           fullWidth
           label="Enter IFSC Code"
           value={formData.ifscCode}
@@ -104,7 +110,7 @@ const CreateAccount = () => {
         />
 
         <TextField
-          id="branchName"
+          name="branchName"
           fullWidth
           label="Enter Branch Name"
           value={formData.branchName}
@@ -114,11 +120,33 @@ const CreateAccount = () => {
         />
 
         <TextField
-          id="balance"
+          name="balance"
           type="number"
           fullWidth
           label="Enter Balance"
           value={formData.balance}
+          onChange={handleChange}
+          variant="outlined"
+          sx={textFieldStyles}
+        />
+
+        <TextField
+          name="upi"
+          type="text"
+          fullWidth
+          label="Enter Upi"
+          value={formData.upi}
+          onChange={handleChange}
+          variant="outlined"
+          sx={textFieldStyles}
+        />
+
+        <TextField
+          name="bankName"
+          type="text"
+          fullWidth
+          label="Enter Bank Name"
+          value={formData.bankName}
           onChange={handleChange}
           variant="outlined"
           sx={textFieldStyles}
@@ -131,12 +159,14 @@ const CreateAccount = () => {
           </InputLabel>
           <Select
             labelId="userId-label"
-            id="userId"
+            name="userId" // ✅ changed
             value={formData.userId}
-            onChange={handleChange} // Updates formData.userId
+            onChange={handleChange}
             sx={{ color: "white" }}
           >
-            {users.map((user) => (
+            {loading && <MenuItem disabled>Loading...</MenuItem>}
+            {error && <MenuItem disabled>Error loading users</MenuItem>}
+            {users?.map((user) => (
               <MenuItem key={user.id} value={user.id}>
                 {user.fullName}
               </MenuItem>
