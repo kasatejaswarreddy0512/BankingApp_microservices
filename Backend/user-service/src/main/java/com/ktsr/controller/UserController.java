@@ -28,6 +28,20 @@ public class UserController {
         return ResponseEntity.ok(authService.getAllUsers());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id,
+                                            @RequestHeader(value = "Authorization", required = false) String authHeader) {
+
+        if (authHeader == null || !authHeader.startsWith("Bearer "))
+            throw new RuntimeException("Missing/Invalid Authorization header");
+
+        String jwt = authHeader.substring(7).trim();
+        // optionally validate jwt here
+
+        return ResponseEntity.ok(authService.getUserById(id));
+    }
+
+
 
     @PutMapping("/profile/{id}")
     public ResponseEntity<User> updateUserProfile(@PathVariable Long id, @RequestBody SignUpRequest signUpRequest) {
