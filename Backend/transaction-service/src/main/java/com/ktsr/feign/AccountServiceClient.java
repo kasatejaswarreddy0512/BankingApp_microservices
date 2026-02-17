@@ -12,8 +12,8 @@ public interface AccountServiceClient {
     public ResponseEntity<AccountDto> getAccountById(@PathVariable Long accountId,
                                                      @RequestHeader("Authorization") String authHeader);
 
-    @PutMapping("/api/account/updateBalance/{accountId}")
-    public ResponseEntity<AccountDto> updateAccountBalance(@PathVariable Long accountId,
+    @PutMapping("/api/account/updateBalance/{accountNumber}")
+    public ResponseEntity<AccountDto> updateAccountBalance(@PathVariable String accountNumber,
                                                         @RequestParam Double amount,
                                                         @RequestHeader("Authorization") String authHeader);
 

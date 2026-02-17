@@ -2,13 +2,15 @@ package com.ktsr.service;
 
 import com.ktsr.entity.Transaction;
 
+import java.util.List;
+
 public interface TransactionService {
 
-    Transaction deposit(Long accountId, double amount, String jwt);
+    Transaction deposit(String accountNumber, double amount, String jwt);
 
-    Transaction withdraw(Long accountId, double amount, String jwt);
+    Transaction withdraw(String accountNumber, double amount, String jwt);
 
-    Transaction transfer(Long fromAccountId, Long toAccountId, double amount, String jwt);
+    Transaction transfer(String fromAccountNumber, String toAccountNumber, double amount, String jwt);
 
-    Transaction getTransactionByAccountId(String accountNumber, String jwt);
+    List<Transaction> getTransactionByAccountId(String accountNumber, String jwt);
 }
