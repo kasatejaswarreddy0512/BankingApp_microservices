@@ -5,6 +5,7 @@ import com.ktsr.enity.Account;
 import com.ktsr.feign.UserService;
 import com.ktsr.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,21 +21,24 @@ public class AccountController {
 
 
     @PostMapping("/create/{userId}")
-    public ResponseEntity<Account> createAccount(@PathVariable Long userId,
-                                                 @RequestBody Account account,
-                                                 @RequestHeader("Authorization") String authHeader) {
-        String jwt= authHeader.substring(7).trim();
-
-        ResponseEntity<UserDto> userResponse = userService.getUserProfile("Bearer " + jwt);
-
-        UserDto userDto= userResponse.getBody();
-
-        if(userDto == null ) {
-           throw new RuntimeException("User not found");
+    public ResponseEntity<Account> createAccount(
+            @PathVariable Long userId,
+            @RequestBody Account account,
+            @RequestHeader("Authorization") String authHeader
+    ) throws Exception {
+        String jwt = authHeader.replace("Bearer", "").trim();
+        ResponseEntity<UserDto> response= userService.getUserProfile("Bearer "+jwt);
+        UserDto user=response.getBody();
+        if(user==null){
+            throw new Exception("User not found");
         }
+        Account saveAccount=accountService.createAccount(userId,account,String.valueOf(user.getRole()));
+        return new ResponseEntity<>(saveAccount, HttpStatus.CREATED);
+    }
 
-        Account createdAccount = accountService.createAccount(userId, account, String.valueOf(userDto.getRole()));
-        return ResponseEntity.ok(createdAccount);
+    @GetMapping
+    public ResponseEntity<List<Account>> getAllAccounts(@RequestHeader("Authorization") String authHeader) {
+        return ResponseEntity.ok(accountService.getAllAccounts());
     }
 
     @GetMapping("/{accountId}")
@@ -80,13 +84,13 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAccountByAccountNumber(accountNumber));
     }
 
-    @PutMapping("/updateBalance/{accountId}")
-    public ResponseEntity<Account> updateAccountBalance(@PathVariable Long accountId,
+    @PutMapping("/updateBalance/{accountNumber}")
+    public ResponseEntity<Account> updateAccountBalance(@PathVariable String accountNumber,
                                                         @RequestParam Double amount,
                                                         @RequestHeader("Authorization") String authHeader) {
         String jwt=authHeader.replace("Bearer","").trim();
         UserDto userDto=userService.getUserProfile("Bearer "+jwt).getBody();
         assert userDto != null;
-        return ResponseEntity.ok(accountService.updateAccountBalance(accountId, amount));
+        return ResponseEntity.ok(accountService.updateAccountBalance(accountNumber, amount));
     }
 }

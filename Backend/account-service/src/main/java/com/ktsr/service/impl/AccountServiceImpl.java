@@ -1,31 +1,37 @@
 package com.ktsr.service.impl;
 
+import com.ktsr.dto.UserDto;
 import com.ktsr.enity.Account;
 import com.ktsr.feign.UserService;
 import com.ktsr.repository.AccountRepository;
 import com.ktsr.service.AccountService;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class AccountServiceImpl  implements AccountService {
+    @RequiredArgsConstructor
+    public class AccountServiceImpl  implements AccountService {
 
-    private final AccountRepository accountRepository;
-    private final UserService userService;
+        private final AccountRepository accountRepository;
+        private final UserService userService;
 
     @Override
-    public Account createAccount(Long userId, Account account, String requestRole) {
+    public Account createAccount(Long userId, Account account, String requestRole) throws Exception {
 
-        if(!requestRole.equalsIgnoreCase("ADMIN")){
-            throw new RuntimeException("Unauthorized to create account");
+        if(!requestRole.equalsIgnoreCase("ADMIN")) {
+            throw new Exception("Only Admin can Create Account..!");
         }
         account.setUserId(userId);
         return accountRepository.save(account);
     }
 
+    @Override
+    public List<Account> getAllAccounts() {
+        return accountRepository.findAll();
+    }
 
     @Override
     public Account getAccountById(Long accountId) {
@@ -91,8 +97,8 @@ public class AccountServiceImpl  implements AccountService {
     }
 
     @Override
-    public Account updateAccountBalance(Long accountId, Double amount) {
-        Account account = getAccountById(accountId); // Should throw if not found
+    public Account updateAccountBalance(String  accountNumber, Double amount) {
+        Account account = getAccountByAccountNumber(accountNumber); // Should throw if not found
 
         double newBalance = account.getBalance() + amount;
         if (newBalance < 0) {
