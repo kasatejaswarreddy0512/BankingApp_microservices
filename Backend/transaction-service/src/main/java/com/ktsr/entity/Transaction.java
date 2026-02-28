@@ -24,7 +24,7 @@ public class Transaction {
 
     private double amount;
 
-    private String transactionType; // e.g., "DEPOSIT", "WITHDRAWAL", "TRANSFER"
+    private String transactionType; // e.g., "DEPOSIT", "WITHDRAWAL", "TRANSFER","RECEIVED"
 
     private String description; // Optional description of the transaction
 

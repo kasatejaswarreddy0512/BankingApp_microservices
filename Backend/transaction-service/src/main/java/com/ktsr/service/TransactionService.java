@@ -12,5 +12,8 @@ public interface TransactionService {
 
     Transaction transfer(String fromAccountNumber, String toAccountNumber, double amount, String jwt);
 
+    Transaction upiTransfer(String fromUpi, String toUpi, double amount, String jwt);
+
+
     List<Transaction> getTransactionByAccountId(String accountNumber, String jwt);
 }

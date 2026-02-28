@@ -92,13 +92,64 @@ public class TransactionServiceImpl implements TransactionService {
         accountServiceClient.updateAccountBalance(fromAccountNumber, -amount, jwt); // debit
         accountServiceClient.updateAccountBalance(toAccountNumber, amount, jwt);   // credit
 
-        Transaction transaction = new Transaction();
-        transaction.setAccountNumber(fromAccountNumber);
-        transaction.setAmount(amount);
-        transaction.setTransactionType("TRANSFER");
-        transaction.setDescription("Transfer of $ " + amount + " to account " + toAccountNumber);
-        transaction.setTransactionDate(LocalDateTime.now());
-        return transactionRepository.save(transaction);
+        //sender Transaction
+        Transaction sendTransaction = new Transaction();
+        sendTransaction.setAccountNumber(fromAccountNumber);
+        sendTransaction.setAmount(amount);
+        sendTransaction.setTransactionType("TRANSFER");
+        sendTransaction.setDescription("Transferred $ " + amount + " to account " + toAccountNumber);
+        sendTransaction.setTransactionDate(LocalDateTime.now());
+
+
+        // ✅ Receiver transaction (credit)
+        Transaction recevierTransaction = new Transaction();
+        recevierTransaction.setAccountNumber(toAccountNumber);
+        recevierTransaction.setAmount(amount);
+        recevierTransaction.setTransactionType("RECEIVED");
+        recevierTransaction.setDescription("Received  $ " + amount + " to account " + fromAccountNumber);
+        recevierTransaction.setTransactionDate(LocalDateTime.now());
+
+        transactionRepository.save(recevierTransaction);
+        return transactionRepository.save(sendTransaction);
+    }
+
+    @Override
+    @Transactional
+    public Transaction upiTransfer(String fromUpi, String toUpi, double amount, String jwt) {
+        if (amount <= 0) throw new IllegalArgumentException("Upi amount must be greater than zero");
+
+        AccountDto fromAccount = accountServiceClient.getAccountByUpi(fromUpi, jwt).getBody();
+        if (fromAccount == null) throw new RuntimeException("Account not found with UPI: " + fromUpi);
+
+        AccountDto toAccount = accountServiceClient.getAccountByUpi(toUpi, jwt).getBody();
+        if (toAccount == null) throw new RuntimeException("Account not found with UPI: " + toUpi);
+
+        if (fromAccount.getBalance() < amount) throw new RuntimeException("Insufficient balance for UPI");
+
+        // ✅ update balances using accountNumber (not upi)
+        accountServiceClient.updateAccountBalance(fromAccount.getAccountNumber(), -amount, jwt);
+        accountServiceClient.updateAccountBalance(toAccount.getAccountNumber(), amount, jwt);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        // ✅ Sender transaction
+        Transaction senderTx = new Transaction();
+        senderTx.setAccountNumber(fromAccount.getAccountNumber());
+        senderTx.setAmount(amount);
+        senderTx.setTransactionType("TRANSFER");
+        senderTx.setDescription("UPI Transfer $" + amount + " to " + toUpi);
+        senderTx.setTransactionDate(now);
+
+        // ✅ Receiver transaction
+        Transaction receiverTx = new Transaction();
+        receiverTx.setAccountNumber(toAccount.getAccountNumber());
+        receiverTx.setAmount(amount);
+        receiverTx.setTransactionType("RECEIVED");
+        receiverTx.setDescription("UPI Received $" + amount + " from " + fromUpi);
+        receiverTx.setTransactionDate(now);
+
+        transactionRepository.save(receiverTx);
+        return transactionRepository.save(senderTx);
     }
 
     @Override
