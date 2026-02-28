@@ -15,6 +15,8 @@ public class AccountDto {
     private String accountType;
     private String branchName;
     private Double balance;
+    private String upi;
+    private String bankName;
 
     private Long userId; // Foreign key to User entity
 }

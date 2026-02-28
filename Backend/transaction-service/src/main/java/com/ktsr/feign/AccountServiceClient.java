@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "account-service", url = "http://localhost:8082")
+@FeignClient(name = "ACCOUNT-SERVICE", url = "http://localhost:8082")
 public interface AccountServiceClient {
 
     @GetMapping("/api/account/{accountId}")
@@ -21,4 +21,6 @@ public interface AccountServiceClient {
     @GetMapping("/api/account/accountNumber/{accountNumber}")
     public ResponseEntity<AccountDto> getAccountByAccountNumber(@PathVariable String accountNumber, @RequestHeader("Authorization") String authHeader) ;
 
+    @GetMapping("/api/account/upi/{upi}")
+    public ResponseEntity<AccountDto> getAccountByUpi(@PathVariable String upi, @RequestHeader("Authorization") String authHeader);
 }

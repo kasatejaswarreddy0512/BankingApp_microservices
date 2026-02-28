@@ -16,6 +16,7 @@ public interface AccountService {
     Account deleteAccount(Long accountId, String requestRole);
     List<Account> getAccountByUserId(Long userId);
     Account getAccountByAccountNumber(String accountNumber);
+    Account getAccountByUpi(String upi);
 
     Account  updateAccountBalance(String accountNumber, Double amount);
 }

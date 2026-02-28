@@ -84,6 +84,14 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAccountByAccountNumber(accountNumber));
     }
 
+    @GetMapping("/upi/{upi}")
+    public ResponseEntity<Account> getAccountByUpi(@PathVariable String upi, @RequestHeader("Authorization") String authHeader){
+        String jwt=authHeader.replace("Bearer","").trim();
+        UserDto userDto=userService.getUserProfile("Bearer "+jwt).getBody();
+        assert userDto != null;
+        return ResponseEntity.ok(accountService.getAccountByUpi(upi));
+    }
+
     @PutMapping("/updateBalance/{accountNumber}")
     public ResponseEntity<Account> updateAccountBalance(@PathVariable String accountNumber,
                                                         @RequestParam Double amount,

@@ -97,6 +97,12 @@ import java.util.List;
     }
 
     @Override
+    public Account getAccountByUpi(String upi) {
+        return accountRepository.findByUpi(upi)
+                .orElseThrow(()-> new RuntimeException("Account not found with upi: " + upi));
+    }
+
+    @Override
     public Account updateAccountBalance(String  accountNumber, Double amount) {
         Account account = getAccountByAccountNumber(accountNumber); // Should throw if not found
 
