@@ -30,7 +30,6 @@ const ToAccount = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* From Account Number */}
         <TextField
           id="fromAccountNumber"
           fullWidth

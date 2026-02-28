@@ -15,6 +15,8 @@ const CreateAccount = () => {
   const dispatch = useDispatch();
   const { users, loading, error } = useSelector((store) => store.auth);
 
+  const [successMsg, setSuccessMsg] = useState("");
+
   const [formData, setFormData] = useState({
     accountNumber: "",
     accountType: "",
@@ -34,7 +36,6 @@ const CreateAccount = () => {
     }
   }, [dispatch]);
 
-  // ✅ Updated handleChange to use "name" instead of "id"
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -42,20 +43,45 @@ const CreateAccount = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(
-      createAccount({
-        userId: formData.userId,
-        accountData: formData,
-        token: localStorage.getItem("token"),
-      })
-    );
-    console.log("Account Data Submitted:", formData);
+
+    try {
+      await dispatch(
+        createAccount({
+          userId: formData.userId,
+          accountData: formData,
+          token: localStorage.getItem("token"),
+        })
+      ).unwrap();
+
+      // ✅ Show success message
+      setSuccessMsg("Account created successfully ✅");
+
+      // ✅ Clear form
+      setFormData({
+        accountNumber: "",
+        accountType: "",
+        ifscCode: "",
+        branchName: "",
+        balance: "",
+        upi: "",
+        bankName: "",
+        userId: "",
+      });
+
+      // ✅ Hide after 3 seconds
+      setTimeout(() => {
+        setSuccessMsg("");
+      }, 3000);
+
+    } catch (err) {
+      console.error("Error creating account:", err);
+    }
   };
 
   const textFieldStyles = {
-    marginBottom: "30px",
+    marginBottom: "10px",
     "& .MuiInputBase-input": { color: "white" },
     "& .MuiInputLabel-root": { color: "white" },
     "& .MuiOutlinedInput-root": {
@@ -66,12 +92,30 @@ const CreateAccount = () => {
   };
 
   return (
-    <div className="card relative p-6 border rounded-lg shadow-md flex flex-col w-[800px] mx-auto mt-10">
-      <h1 className="text-2xl mb-6 text-green-500 text-center font-semibold ">
+    <div className="card relative p-6 border rounded-lg shadow-md flex flex-col w-[880px] mx-auto mt-10">
+      <h1 className="text-2xl mb-6 text-green-500 text-center font-semibold">
         Create Account
       </h1>
 
+      {/* ✅ Success Message */}
+      {successMsg && (
+        <div
+          style={{
+            background: "#16a34a",
+            color: "white",
+            padding: "10px",
+            borderRadius: "8px",
+            marginBottom: "15px",
+            textAlign: "center",
+            fontWeight: "600",
+          }}
+        >
+          {successMsg}
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-5">
+
         <TextField
           name="accountNumber"
           fullWidth
@@ -83,19 +127,46 @@ const CreateAccount = () => {
         />
 
         <FormControl fullWidth sx={textFieldStyles}>
-          <InputLabel id="accountType-label" sx={{ color: "white" }}>
-            Select Account Type
-          </InputLabel>
+          <InputLabel id="accountType-label">Select Account Type</InputLabel>
           <Select
             labelId="accountType-label"
-            name="accountType" // ✅ changed
+            name="accountType"
             value={formData.accountType}
             onChange={handleChange}
-            sx={{ color: "white" }}
+            sx={{
+              color: "white",
+              "& .MuiSelect-icon": { color: "white" },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              },
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  backgroundColor: "black",
+                  color: "white",
+                },
+              },
+            }}
           >
-            <MenuItem value="Savings">Savings</MenuItem>
-            <MenuItem value="Current">Current</MenuItem>
-            <MenuItem value="Business">Business</MenuItem>
+            {["Savings", "Current", "Business"].map((type) => (
+              <MenuItem
+                key={type}
+                value={type}
+                sx={{
+                  color: "white",
+                  "&:hover": { backgroundColor: "#222" },
+                }}
+              >
+                {type}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
 
@@ -132,9 +203,8 @@ const CreateAccount = () => {
 
         <TextField
           name="upi"
-          type="text"
           fullWidth
-          label="Enter Upi"
+          label="Enter UPI"
           value={formData.upi}
           onChange={handleChange}
           variant="outlined"
@@ -143,7 +213,6 @@ const CreateAccount = () => {
 
         <TextField
           name="bankName"
-          type="text"
           fullWidth
           label="Enter Bank Name"
           value={formData.bankName}
@@ -152,22 +221,47 @@ const CreateAccount = () => {
           sx={textFieldStyles}
         />
 
-        {/* Dynamic User Dropdown */}
+        {/* User Dropdown */}
         <FormControl fullWidth sx={textFieldStyles}>
-          <InputLabel id="userId-label" sx={{ color: "white" }}>
-            Select User
-          </InputLabel>
+          <InputLabel id="userId-label">Select User</InputLabel>
           <Select
             labelId="userId-label"
-            name="userId" // ✅ changed
+            name="userId"
             value={formData.userId}
             onChange={handleChange}
-            sx={{ color: "white" }}
+            sx={{
+              color: "white",
+              "& .MuiSelect-icon": { color: "white" },
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              },
+            }}
+            MenuProps={{
+              PaperProps: {
+                sx: {
+                  backgroundColor: "black",
+                  color: "white",
+                },
+              },
+            }}
           >
             {loading && <MenuItem disabled>Loading...</MenuItem>}
             {error && <MenuItem disabled>Error loading users</MenuItem>}
             {users?.map((user) => (
-              <MenuItem key={user.id} value={user.id}>
+              <MenuItem
+                key={user.id}
+                value={user.id}
+                sx={{
+                  color: "white",
+                  "&:hover": { backgroundColor: "#222" },
+                }}
+              >
                 {user.fullName}
               </MenuItem>
             ))}
@@ -175,16 +269,7 @@ const CreateAccount = () => {
         </FormControl>
 
         <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{
-            marginTop: "10px",
-            borderRadius: "8px",
-            width: "200px",
-            marginLeft: "250px",
-          }}
+          type="submit" variant="contained" color="primary" fullWidth sx={{ marginTop: "10px", borderRadius: "8px", width: "200px", marginLeft: "350px", }}
         >
           Create Account
         </Button>

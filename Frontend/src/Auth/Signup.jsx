@@ -5,6 +5,8 @@ import {
   FormControl,
   MenuItem,
   Select,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -14,6 +16,8 @@ import { useNavigate } from "react-router-dom";
 const Signup = ({ togglePannel }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     aadhaarNumber: "",
@@ -25,7 +29,7 @@ const Signup = ({ togglePannel }) => {
     password: "",
     phoneNumber: "",
     profilePictureUrl: "",
-    role: "USER", // default role
+    role: "USER",
   });
 
   const handleChange = (e) => {
@@ -37,106 +41,122 @@ const Signup = ({ togglePannel }) => {
     setFormData({ ...formData, role: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!formData.role) {
       alert("Please select a role");
       return;
     }
-    dispatch(register(formData));
-    navigate("/Signin");
-    console.log("Signup form:", formData);
+
+    try {
+      await dispatch(register(formData)); // no unwrap needed
+
+      // ✅ Clear form
+      setFormData({
+        aadhaarNumber: "",
+        address: "",
+        dateOfBirth: "",
+        email: "",
+        fullName: "",
+        panNumber: "",
+        password: "",
+        phoneNumber: "",
+        profilePictureUrl: "",
+        role: "USER",
+      });
+
+      // ✅ Show snackbar
+      setOpen(true);
+
+      // ✅ Navigate after 3 seconds
+      setTimeout(() => {
+        setOpen(false);
+        navigate("/Signin");
+      }, 3000);
+
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
   };
 
   return (
     <div className="flex justify-center items-center w-full">
       <div
-        className="flex flex-col items-center rounded-lg shadow-lg"
-        style={{ width: "500px", marginTop: "15px" }}
+        className="flex flex-col items-center rounded-lg shadow-lg p-6"
+        style={{ width: "550px", marginTop: "2px" }}
       >
-        <h1 className="text-2xl text-center space-y-2 pb-1 text-white">
+        <h1
+          className="text-2xl text-center pb-4 text-white"
+          style={{ marginBottom: "20px" }}
+        >
           Register
         </h1>
 
-        <form className="grid grid-cols-3 gap-1 w-full" onSubmit={handleSubmit}>
-          {/* Full Name */}
-          <TextField
-            label="Full Name"
-            name="fullName"
-            type="text"
-            value={formData.fullName}
-            onChange={handleChange}
-            placeholder="Enter your Full Name..."
-            required
-            sx={textFieldStyles}
-          />
+        <form
+          className="grid grid-cols-3 gap-4 w-full"
+          onSubmit={handleSubmit}
+        >
+          <TextField label="Full Name" name="fullName" value={formData.fullName} onChange={handleChange} required sx={textFieldStyles} />
+          <TextField label="Email" name="email" type="email" value={formData.email} onChange={handleChange} required sx={textFieldStyles} />
+          <TextField label="Password" name="password" type="password" value={formData.password} onChange={handleChange} required sx={textFieldStyles} />
 
-          {/* Email */}
-          <TextField
-            label="Email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your Email..."
+          <TextField label="Aadhaar Number" name="aadhaarNumber" value={formData.aadhaarNumber} onChange={(e) => {
+            const value = e.target.value.replace(/\D/g, ""); // remove non-digits
+            if (value.length <= 12) {
+              setFormData({ ...formData, aadhaarNumber: value });
+            }
+          }}
             required
-            sx={textFieldStyles}
-          />
-
-          {/* Password */}
-          <TextField
-            label="Password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your Password..."
-            required
-            sx={textFieldStyles}
-          />
-
-          {/* Aadhaar Number */}
-          <TextField
-            label="Aadhaar Number"
-            name="aadhaarNumber"
-            type="text"
-            value={formData.aadhaarNumber}
-            onChange={handleChange}
-            placeholder="Enter Aadhaar Number..."
-            required
-            sx={textFieldStyles}
-          />
-
-          {/* PAN Number */}
+            inputProps={{
+              maxLength: 12,
+              inputMode: "numeric",
+              pattern: "[0-9]{12}",
+            }}
+            sx={textFieldStyles} />
           <TextField
             label="PAN Number"
             name="panNumber"
-            type="text"
             value={formData.panNumber}
-            onChange={handleChange}
-            placeholder="Enter PAN Number..."
+            onChange={(e) => {
+              let value = e.target.value
+                .toUpperCase()          // convert to uppercase
+                .replace(/[^A-Z0-9]/g, ""); // remove special characters
+
+              if (value.length <= 10) {
+                setFormData({ ...formData, panNumber: value });
+              }
+            }}
             required
+            inputProps={{
+              maxLength: 10,
+              pattern: "[A-Z0-9]{10}",
+            }}
             sx={{
               ...textFieldStyles,
-              "& input": {
-                textTransform: "uppercase", // 👈 force uppercase visually
-              },
+              "& input": { textTransform: "uppercase" },
             }}
           />
 
-          {/* Phone Number */}
           <TextField
             label="Phone Number"
             name="phoneNumber"
-            type="text"
             value={formData.phoneNumber}
-            onChange={handleChange}
-            placeholder="Enter Phone Number..."
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D/g, ""); // remove non-digits
+              if (value.length <= 10) {
+                setFormData({ ...formData, phoneNumber: value });
+              }
+            }}
             required
+            inputProps={{
+              maxLength: 10,
+              inputMode: "numeric",
+              pattern: "[0-9]{10}",
+            }}
             sx={textFieldStyles}
           />
 
-          {/* Date of Birth */}
           <TextField
             label="Date of Birth"
             name="dateOfBirth"
@@ -148,36 +168,29 @@ const Signup = ({ togglePannel }) => {
             sx={{
               ...textFieldStyles,
               "& input::-webkit-calendar-picker-indicator": {
-                filter: "invert(1)", // 👈 makes the default black icon white
+                filter: "invert(1)",
               },
             }}
           />
 
-          {/* Address (make it span 2 cols) */}
           <TextField
             label="Address"
             name="address"
-            type="text"
             value={formData.address}
             onChange={handleChange}
-            placeholder="Enter your Address..."
             required
             sx={{ ...textFieldStyles, gridColumn: "span 2" }}
           />
 
-          {/* Profile Picture URL */}
           <TextField
             label="Profile Picture URL"
             name="profilePictureUrl"
-            type="text"
             value={formData.profilePictureUrl}
             onChange={handleChange}
-            placeholder="Enter profile image URL..."
             required
             sx={{ ...textFieldStyles, gridColumn: "span 3" }}
           />
 
-          {/* Role Selection */}
           <FormControl sx={{ ...textFieldStyles, gridColumn: "span 3" }}>
             <InputLabel sx={{ color: "white" }}>Role</InputLabel>
             <Select
@@ -186,34 +199,27 @@ const Signup = ({ togglePannel }) => {
               sx={{
                 color: "white",
                 "& .MuiOutlinedInput-notchedOutline": { borderColor: "white" },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "white",
-                },
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "white",
-                },
                 "& .MuiSvgIcon-root": { color: "white" },
               }}
+              MenuProps={{
+                PaperProps: {
+                  sx: { backgroundColor: "black", color: "white" },
+                },
+              }}
             >
-              <MenuItem value={"ADMIN"}>ADMIN</MenuItem>
-              <MenuItem value={"USER"}>USER</MenuItem>
+              <MenuItem value="ADMIN">ADMIN</MenuItem>
+              <MenuItem value="USER">USER</MenuItem>
             </Select>
           </FormControl>
 
-          {/* Register Button (full width) */}
           <Button
+            type="submit"
+            variant="contained"
             sx={{
               height: "50px",
-              width: "100%",
-              marginLeft: "80px",
-              backgroundColor: "#1976d2",
-              color: "white",
-              textTransform: "none",
+              gridColumn: "span 3",
               borderRadius: "8px",
-              "&:hover": { backgroundColor: "#1565c0" },
-              gridColumn: "span 2",
             }}
-            type="submit"
           >
             Register
           </Button>
@@ -229,19 +235,31 @@ const Signup = ({ togglePannel }) => {
           </Button>
         </div>
       </div>
+
+      {/* Snackbar */}
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity="success" variant="filled">
+          User registered successfully 🎉
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
 
-/* ✅ Shared input styles */
 const textFieldStyles = {
-  mb: 2,
   width: "100%",
+  "& .MuiInputBase-root": { height: "56px" },
   "& .MuiInputBase-input": { color: "white" },
   "& .MuiInputLabel-root": { color: "white" },
   "& .MuiOutlinedInput-root fieldset": { borderColor: "white" },
   "&:hover .MuiOutlinedInput-root fieldset": { borderColor: "white" },
-  "&.Mui-focused .MuiOutlinedInput-root fieldset": { borderColor: "white" },
+  "&.Mui-focused .MuiOutlinedInput-root fieldset": {
+    borderColor: "white",
+  },
 };
 
 export default Signup;

@@ -17,6 +17,17 @@ export const createAccount = createAsyncThunk(
   }
 );
 
+// ---------------------- GET ALL ACCOUNTS ----------------------
+export const getAllAccounts = createAsyncThunk(
+  "account/getAllAccounts",
+  async (token) => {
+    const { data } = await axios.get(`${BASE_URL}/api/account`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return data;
+  }
+);
+
 // ---------------------- GET ACCOUNT BY ID ----------------------
 export const getAccountById = createAsyncThunk(
   "account/getAccountById",
@@ -117,6 +128,20 @@ const accountSlice = createSlice({
         state.accounts.push(action.payload);
       })
       .addCase(createAccount.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+
+      // GET ALL ACCOUNTS
+      .addCase(getAllAccounts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAllAccounts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.accounts = action.payload;
+      })
+      .addCase(getAllAccounts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

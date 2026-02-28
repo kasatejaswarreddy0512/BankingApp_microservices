@@ -8,22 +8,22 @@
   font-family: 'Roboto', sans-serif;
 }
 
-.box{
+.box {
   position: relative;
   width: 100%;
   padding: 40px 30px;
   box-shadow: rgba(215, 106, 255, 0.507) 0px 0px 100px;
 
   /* perspective: 500px; */
-  height: 99%;
+  height: 90%;
 
 }
 
-.box .cover{
+.box .cover {
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 50%;
+  left: 48%;
+  width: 52%;
   height: 100%;
   z-index: 98;
   transition: all 1s ease;
@@ -31,12 +31,12 @@
   transform-style: preserve-3d;
 }
 
-.box .rotate-active{
+.box .rotate-active {
   transform: rotateY(-180deg);
 }
 
 .box .cover .front,
-.box .cover .back{
+.box .cover .back {
   position: absolute;
   top: 0;
   left: 0;
@@ -45,13 +45,13 @@
   backface-visibility: hidden;
 }
 
-.cover .back{
+.cover .back {
   transform: rotateY(180deg);
   backface-visibility: hidden;
 }
 
 .box .cover::before,
-.box .cover::after{
+.box .cover::after {
   content: "";
   position: absolute;
   height: 100%;
@@ -61,21 +61,21 @@
   z-index: 12;
 }
 
-.box .cover::after{
+.box .cover::after {
   opacity: 0.3;
   transform: rotateY(180deg);
   backface-visibility: hidden;
 }
 
-.box .cover img{
+.box .cover img {
   position: absolute;
   height: 100%;
   width: 100%;
   object-fit: cover;
-  z-index: 10
+  z-index: 20
 }
 
-.box .cover .text{
+.box .cover .text {
   position: absolute;
   z-index: 130;
   height: 100%;
@@ -87,7 +87,7 @@
 }
 
 .cover .text .text-1,
-.cover .text .text-2{
+.cover .text .text-2 {
   font-size: 26px;
   font-weight: 600;
   color: #fff;
@@ -95,12 +95,12 @@
   line-height: normal;
 }
 
-.cover .text .text-2{
+.cover .text .text-2 {
   margin-top: 7px;
   font-size: 16px;
 }
 
-.box .form-content{
+.box .form-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -108,21 +108,24 @@
 }
 
 .form-content .login-form,
-.form-content .signup-form{
-  width: calc(100%/2-25px);
+.form-content .signup-form {
+  width: calc(100%/2-40px);
 }
 
-.textStyle{
+.textStyle {
   color: #c24dd0;
-  text-shadow: 0px 0px 40px rgba(255. 255,255);
+  text-shadow: 0px 0px 40px rgba(255. 255, 255);
 }
+
 .login-form .shadow-lg {
   box-shadow: none !important;
 }
+
 .signup-form .shadow-lg {
   box-shadow: none !important;
 }
+
 span.quote {
   font-style: italic;
-  color: white !important;
+  color: rgb(128, 201, 179) !important;
 }

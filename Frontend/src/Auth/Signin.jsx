@@ -28,16 +28,16 @@ const Signin = ({ togglePannel }) => {
       {/* Centered wrapper */}
       <div
         className="flex flex-col items-center  p-6 rounded-lg shadow-lg"
-        style={{ width: "400px" }}
+        style={{ width: "400px", marginLeft: 60, gap: "10px" }}
       >
-        <h1 className="text-lg font-bold  text-center pb-8 text-white">
+        <h1 className="text-2xl mb-9 font-bold text-center pb-8 text-white">
           Login
         </h1>
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
 
         <form
-          className="space-y-4 flex flex-col items-center"
+          className="space-y-4 flex flex-col mt-4 items-center"
           onSubmit={handleSubmit}
         >
           <TextField

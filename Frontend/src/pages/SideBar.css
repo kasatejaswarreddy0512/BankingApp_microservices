@@ -1,35 +1,88 @@
-.card{
-    background: linear-gradient(135deg, rgba(77, 96, 91, 0.3), rgba(100, 82, 126, 0.2)) !important;
-    box-shadow: rgba(215, 106, 255, 0.2) 0px 4px 12px !important;   
-    padding: 20px;
-    border-radius: 20px !important;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 60px;
-    border: 1px solid white !important;
-    
-    
-    
-}
-.menu{
-  margin-bottom: 10px;
-  height: 22px;
+.sidebar {
+  width: 280px;
+  height: 86vh;
+  margin-top: 20px;
+  margin-left: 40px;
+  padding: 12px 10px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  position: fixed;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  overflow: hidden;
+  /* no scroll */
 }
 
-.logout {
-  color: white !important;
-  font-weight: bold;
+.sidebarTop {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 4px 0 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.sidebarAvatar {
+  width: 72px !important;
+  height: 72px !important;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+}
+
+.sidebarMenu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* reduced gap */
+  padding: 10px 6px;
+  flex: 1;
+  /* take remaining space */
+}
+
+.menuItem {
+  width: 100%;
+  height: 36px;
+  /* reduced height */
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 12px;
+  /* reduced font */
+  font-weight: 700;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  background-image: linear-gradient(150deg, #c24dd0, #ff005d);
-  border: 2px solid #c24dd0;
-  border-radius: 30px;
-  padding: 10px;
-  margin-top: 15px !important;
-  transition: all 0.3s ease;
-  width: 200px;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
-.logout:hover {
-  background-image: linear-gradient(100deg, #0d0c0e, #7a72fa, #0d0c0e);
+.menuItem:hover {
+  background: rgba(255, 255, 255, 0.14);
+  transform: translateY(-1px);
+}
+
+.menuItem:active {
+  transform: translateY(0px);
+}
+
+.logoutBtn {
+  width: 100% !important;
+  border-radius: 999px !important;
+  padding: 9px !important;
+  margin-top: auto !important;
+  /* push to bottom */
+  background: rgba(255, 70, 70, 0.14) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 70, 70, 0.35) !important;
+  font-weight: 800 !important;
+  text-transform: none !important;
+}
+
+.logoutBtn:hover {
+  background: rgba(255, 70, 70, 0.22) !important;
 }

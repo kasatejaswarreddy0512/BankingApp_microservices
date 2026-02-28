@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { TextField, Button } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { transferMoneyToUpi } from "../Redux-Toolkit/TransactionSlice";
 
 const ToUpi = () => {
+  const dispatch = useDispatch();
+  const token =
+    useSelector((state) => state.auth?.token || state.auth?.jwt || state.auth?.accessToken) ||
+    localStorage.getItem("token") ||
+    localStorage.getItem("jwt") ||
+    localStorage.getItem("accessToken");
+
   const [formData, setFormData] = useState({
     fromUpi: "",
     toUpi: "",
@@ -12,14 +21,38 @@ const ToUpi = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("UPI Transfer Data Submitted:", formData);
+    if (!token) {
+      alert("Token missing! Please login again.");
+      return;
+    }
+    try {
+      await dispatch(
+        transferMoneyToUpi({
+          fromUpi: formData.fromUpi,
+          toUpi: formData.toUpi,
+          amount: Number(formData.amount),
+          token: token, // ✅ pass token
+        })
+      ).unwrap();
+
+
+      alert("Money Transfer Successfully...!");
+
+      setFormData({
+        fromUpi: "",
+        toUpi: "",
+        amount: "",
+      });
+    } catch (error) {
+      alert("Transfer failed: " + error.message);
+    }
     // Here you can call your backend API
   };
 
   return (
-    <div className="card relative p-6 border rounded-lg shadow-md w-[880px] mx-auto ">
+    <div className="card relative p-6 border rounded-lg shadow-md flex flex-col w-[880px] mx-auto mt-10">
       <h1 className="text-2xl mb-6 text-center text-green-500 font-semibold">
         UPI Transfer
       </h1>

@@ -8,6 +8,8 @@ import Deposits from "./Deposits";
 import Withdrawals from "./Withdrawals";
 import CreateAccount from "./CreateAccount";
 import Transactions from "./Transactions";
+import AllUsers from "./AllUsers";
+import Signin from "../Auth/Signin";
 
 const AllRoutes = () => {
   return (
@@ -20,6 +22,8 @@ const AllRoutes = () => {
       <Route path="/withdrawals" element={<Withdrawals />} />
       <Route path="/createaccount" element={<CreateAccount />} />
       <Route path="/transactions" element={<Transactions />} />
+      <Route path="/allusers" element={<AllUsers />} />
+      <Route path="/Signin" element={<Signin />} />
       {/* <Route path="/notifications" element={<Notifications />} /> */}
     </Routes>
   );

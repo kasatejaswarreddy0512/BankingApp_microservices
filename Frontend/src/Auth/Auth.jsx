@@ -1,45 +1,59 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; // ✅ import useState
 import "./Auth.css";
 import Signin from "./Signin";
 import Signup from "./Signup";
 
 const Auth = () => {
-  const [isRegister, setRegister] = useState(false);
+  const [isRegister, setRegister] = useState(false); // ✅ corrected false
 
   const togglePanel = () => {
     setRegister(!isRegister);
   };
 
   return (
-    <div className="flex justify-center h-screen items-center overflow-hidden w-full">
-      <div className="box lg:max-w-6xl w-full flex shadow-2xl">
-        {/* Left side → Signin with image */}
-        <div className="w-1/2 hidden md:flex flex-col">
-          {/* Image */}
-          <img
-            src="https://images.freecreatives.com/wp-content/uploads/2015/03/Huge-Backgrounds-63.jpg"
-            alt="Signin Background"
-            className="h-2/3 w-full object-cover"
-          />
+    <div className="flex justify-center h-screen items-center overflow-hidden">
+      <div className="box lg:max-w-6xl">
+        <div className={`cover ${isRegister ? "rotate-active" : ""}`}>
+          <div className="front">
+            <img
+              src="https://images.pexels.com/photos/11167149/pexels-photo-11167149.jpeg?cs=srgb&dl=pexels-burak-11167149.jpg&fm=jpg"
+              alt=""
+            />
+            <div className="text">
+              <span className="text-1 quote">
+                Great goals are reached through disciplined execution.
+              </span>
+              <span className="text-2 text-xs ">
+                Let’s connect and create impact.
+              </span>
+            </div>
+          </div>
 
-          {/* Text */}
-          <div className="flex flex-col justify-center items-center text-white bg-black bg-opacity-70 p-6 h-1/3 text-center">
-            <span className="text-2xl font-semibold">
-              Great goals are reached through disciplined execution.
-            </span>
-            <span className="text-sm mt-2">
-              Let’s connect and create impact.
-            </span>
+          <div className="back">
+            <img
+              src="https://reddometta.com/wp-content/uploads/2020/10/website-design-background-1-1.jpg"
+              alt=""
+            />
+            <div className="text">
+              <span className="text-1 quote">
+                Meaningful results come from consistent, purposeful effort.
+              </span>
+              <span className="text-2 text-xs">
+                Join us in shaping the future.
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Right side → Either Signin OR Signup */}
-        <div className="w-full md:w-1/2 flex justify-center items-center bg-[#0a0a0a]">
-          {!isRegister ? (
-            <Signin togglePannel={togglePanel} />
-          ) : (
-            <Signup togglePannel={togglePanel} />
-          )}
+        <div className="forms h-full">
+          <div className="form-content h-full">
+            <div className="login-form ">
+              <Signin togglePannel={togglePanel} />
+            </div>
+            <div className="signup-form">
+              <Signup togglePannel={togglePanel} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
